@@ -3,10 +3,23 @@ using System.Collections.ObjectModel;
 
 namespace MvxRecyclerViewTest_Core.Models
 {
-    public class Group
+    public class Group : MvxNotifyPropertyChanged
     {
         public string Name { get; set; }
-        public ObservableCollection<User> Users { get; set; }
+
+        private ObservableCollection<User> users;
+        public ObservableCollection<User> Users
+        {
+            get
+            {
+                return users;
+            }
+            set
+            {
+                users = value;
+                RaisePropertyChanged(nameof(Users));
+            }
+        }
 
         public MvxCommand AddUserCommand
         {

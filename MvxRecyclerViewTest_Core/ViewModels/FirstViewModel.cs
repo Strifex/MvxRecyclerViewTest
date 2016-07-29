@@ -1,5 +1,6 @@
 ﻿using MvvmCross.Core.ViewModels;
 using MvxRecyclerViewTest_Core.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MvxRecyclerViewTest_Core.ViewModels
@@ -19,13 +20,21 @@ namespace MvxRecyclerViewTest_Core.ViewModels
         public FirstViewModel()
         {
             Groups = new ObservableCollection<Group>();
-            CreateMockData();
+
+            List<Group> newGroups = CreateMockData();
+            foreach (Group group in newGroups)
+            {
+                Groups.Add(group);
+            }
         }
 
-        private void CreateMockData()
+        private List<Group> CreateMockData()
         {
+            List<Group> groups = new List<Group>();
+
             Group group1 = new Group();
             group1.Name = "Group 1";
+            groups.Add(group1);
 
             User user1 = new User();
             user1.Id = 1;
@@ -37,10 +46,9 @@ namespace MvxRecyclerViewTest_Core.ViewModels
             user2.Name = "Tim";
             group1.Users.Add(user2);
 
-            Groups.Add(group1);
-
             Group group2 = new Group();
             group2.Name = "Group 2";
+            groups.Add(group2);
 
             User user3 = new User();
             user3.Id = 3;
@@ -57,13 +65,36 @@ namespace MvxRecyclerViewTest_Core.ViewModels
             user5.Name = "Sam";
             group2.Users.Add(user5);
 
-            Groups.Add(group2);
+            return groups;
         }
 
         public void RefreshGroups()
         {
-            Groups.Clear();
-            CreateMockData();
+            List<Group> newGroups = CreateMockData();
+            foreach (Group newGroup in newGroups)
+            {
+                bool groupExists = false;
+
+                foreach (Group group in Groups)
+                {
+                    //Check if group exists in newGroups list
+                    if (group.Name == newGroup.Name)
+                    {
+                        groupExists = true;
+
+                        //Set Group properties
+                        group.Users.Clear();
+                        group.Users = newGroup.Users;
+
+                        break;
+                    }
+                }
+
+                if (!groupExists)
+                {
+                    Groups.Add(newGroup);
+                }
+            }
         }
     }
 }
