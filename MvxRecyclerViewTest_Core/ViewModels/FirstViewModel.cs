@@ -70,6 +70,16 @@ namespace MvxRecyclerViewTest_Core.ViewModels
 
         public void RefreshGroups()
         {
+            //Doesn't Work
+            /*Groups.Clear();
+
+            List<Group> newGroups = CreateMockData();
+            foreach (Group newGroup in newGroups)
+            {
+                Groups.Add(newGroup);
+            }*/
+
+            //Works
             List<Group> newGroups = CreateMockData();
             foreach (Group newGroup in newGroups)
             {
