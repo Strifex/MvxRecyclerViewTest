@@ -81,16 +81,18 @@ namespace MvxRecyclerViewTest_Core.ViewModels
 
             //Works
             List<Group> newGroups = CreateMockData();
+
+            //Update/Add New Groups
             foreach (Group newGroup in newGroups)
             {
-                bool groupExists = false;
+                bool newGroupExists = false;
 
                 foreach (Group group in Groups)
                 {
-                    //Check if group exists in newGroups list
+                    //Check if group exists in oldGroup list
                     if (group.Name == newGroup.Name)
                     {
-                        groupExists = true;
+                        newGroupExists = true;
 
                         //Set Group properties
                         group.Users.Clear();
@@ -100,9 +102,34 @@ namespace MvxRecyclerViewTest_Core.ViewModels
                     }
                 }
 
-                if (!groupExists)
+                //Add New Group
+                if (!newGroupExists)
                 {
                     Groups.Add(newGroup);
+                }
+            }
+
+            //Remove Outdated Groups
+            for (int x = 0; x < Groups.Count; x++)
+            {
+                Group oldGroup = Groups[x];
+                bool oldGroupExists = false;
+
+                foreach (Group newGroup in newGroups)
+                {
+                    //Check if group exists in newGroup List
+                    if (oldGroup.Name == newGroup.Name)
+                    {
+                        oldGroupExists = true;
+                        break;
+                    }
+                }
+
+                //Remove Outdated Group
+                if (!oldGroupExists)
+                {
+                    Groups.RemoveAt(x);
+                    x--;
                 }
             }
         }
