@@ -37,5 +37,10 @@ namespace MvxRecyclerViewTest.Controls
             SetItemAnimator(new DefaultItemAnimator());
             NestedScrollingEnabled = false;
         }
+
+        protected override void OnDetachedFromWindow()
+        {
+            //Do Nothing - Prevents Binding Context from being cleared
+        }
     }
 }
